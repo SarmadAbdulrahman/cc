@@ -195,7 +195,7 @@ func  GetUserTable(ctx *context.Context) (userTable table.Table) {
 	
 
 
-	
+	// https://www.jeremymorgan.com/tutorials/go/how-to-go-web-api-digital-ocean-app/
 
 	formList.AddField("role", "role_id", db.Varchar, form.Select).
 	FieldOptionsFromTable("goadmin_users", "name", "id")
