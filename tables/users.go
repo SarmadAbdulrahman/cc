@@ -16,7 +16,7 @@ import (
 	selection "github.com/GoAdminGroup/go-admin/template/types/form/select"
 	editType "github.com/GoAdminGroup/go-admin/template/types/table"
 
-	"strconv"
+//	"strconv"
 
 
 )
@@ -45,7 +45,7 @@ func NewSystemTable(conn db.Connection, c *config.Config) *SystemTable {
 
 
 func  GetUserTable(ctx *context.Context) (userTable table.Table) {
-	var s SystemTable
+//	var s SystemTable
 
 	userTable = table.NewDefaultTable(table.Config{
 		Driver:     db.DriverSqlite,
@@ -196,28 +196,15 @@ func  GetUserTable(ctx *context.Context) (userTable table.Table) {
 
 
 	
+
 	formList.AddField("role", "role_id", db.Varchar, form.Select).
-	FieldOptionsFromTable("goadmin_roles", "slug", "id").
-	FieldDisplay(func(model types.FieldModel) interface{} {
-		var roles []string
-
-		if model.ID == "" {
-			return roles
-		}
-		roleModel, _ := s.table("goadmin_role_users").Select("role_id").
-			Where("user_id", "=", model.ID).All()
-		for _, v := range roleModel {
-			roles = append(roles, strconv.FormatInt(v["role_id"].(int64), 10))
-		}
-		return roles
-	})
-
+	FieldOptionsFromTable("goadmin_users", "name", "id")
 
 	formList.AddField("UpdatedAt", "updated_at", db.Timestamp, form.Default).FieldNotAllowAdd()
 	formList.AddField("CreatedAt", "created_at", db.Timestamp, form.Default).FieldNotAllowAdd()
 
 	userTable.GetForm().SetTabGroups(types.
-		NewTabGroups("id", "ip", "name", "gender", "country", "city","role_id").
+		NewTabGroups("id", "ip", "name", "gender", "country", "city").
 		AddGroup("phone", "role_id", "created_at", "updated_at")).
 		SetTabHeaders("profile1", "profile2")
 
